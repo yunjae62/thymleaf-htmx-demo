@@ -1,3 +1,7 @@
 spring:
   application:
     name: htmx-demo
+  jpa:
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true
