@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head(title='게시판')}"></head>
+<body>
+
+<header th:replace="~{layout/base :: header}"></header>
+
+<main>
+  <h1>게시판</h1>
+
+  <div id="post-list" th:fragment="list">
+    <table>
+      <thead>
+      <tr>
+        <th>제목</th>
+        <th>작성자</th>
+        <th>작성일</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="post : ${page.content}">
+        <td><a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}">제목</a></td>
+        <td th:text="${post.author.nickname}">작성자</td>
+        <td th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</td>
+      </tr>
+      <tr th:if="${page.empty}">
+        <td colspan="3">등록된 게시글이 없습니다.</td>
+      </tr>
+      </tbody>
+    </table>
+
+    <nav th:if="${page.totalPages > 1}">
+      <a th:each="p : ${#numbers.sequence(0, page.totalPages - 1)}"
+         th:href="@{/posts(page=${p + 1})}"
+         th:hx-get="@{/posts(page=${p + 1})}"
+         hx-target="#post-list"
+         hx-swap="outerHTML"
+         hx-push-url="true"
+         th:classappend="${p == page.number} ? 'active'"
+         th:text="${p + 1}">1</a>
+    </nav>
+  </div>
+</main>
+
+<footer th:replace="~{layout/base :: footer}"></footer>
+
+</body>
+</html>
