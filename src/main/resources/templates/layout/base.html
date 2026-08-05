@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+  <meta charset="UTF-8">
+  <title th:text="${title}">Title</title>
+  <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+  <link rel="stylesheet" th:href="@{/css/common.css}">
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <script>
+    document.addEventListener('htmx:configRequest', (event) => {
+      const token = document.querySelector('meta[name="_csrf"]').content;
+      const header = document.querySelector('meta[name="_csrf_header"]').content;
+      event.detail.headers[header] = token;
+    });
+  </script>
+</head>
+<body>
+
+<header th:fragment="header">
+  <nav>
+    <a th:href="@{/}">HTMX demo</a>
+    <a th:href="@{/charges}">충전</a>
+    <form method="post" th:action="@{/logout}">
+      <button type="submit">로그아웃</button>
+    </form>
+  </nav>
+</header>
+
+<footer th:fragment="footer">
+  <p>HTMX demo</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head(title='홈')}"></head>
+<body>
+
+<header th:replace="~{layout/base :: header}"></header>
+
+<main>
+  Hello world!
+
+  <button hx-swap="innerHTML" hx-target="#result" th:hx-post="@{/hello}">클릭</button>
+  <div id="result" th:fragment="result">
+    <span th:if="${now}" th:text="|서버 응답: ${now}|"></span>
+  </div>
+</main>
+
+<footer th:replace="~{layout/base :: footer}"></footer>
+
+</body>
+</html>

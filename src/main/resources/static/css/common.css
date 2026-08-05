@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+  color: #222;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+header nav a {
+  text-decoration: none;
+  color: #222;
+}
+
+header nav form {
+  margin-left: auto;
+}
+
+main {
+  padding: 20px;
+}
+
+footer {
+  padding: 12px 20px;
+  color: #888;
+  font-size: 0.85em;
+}
