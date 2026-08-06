@@ -1,6 +1,8 @@
 package ex.htmxdemo.post;
 
+import ex.htmxdemo.post.dto.PostCreateRequest;
 import ex.htmxdemo.post.entity.Post;
+import ex.htmxdemo.user.entity.User;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +23,16 @@ public class PostService {
 
     public Post get(Long id) {
         return postRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다. id=" + id));
+            .orElseThrow(() -> new EntityNotFoundException("게시글이 없습니다. id=" + id));
+    }
+
+    @Transactional
+    public Post create(PostCreateRequest request, User author) {
+        Post post = Post.builder()
+            .title(request.title())
+            .content(request.content())
+            .author(author)
+            .build();
+        return postRepository.save(post);
     }
 }

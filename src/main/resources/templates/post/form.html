@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/base :: head(title='게시글 작성')}"></head>
+<body>
+
+<header th:replace="~{layout/base :: header}"></header>
+
+<main>
+  <h1>게시글 작성</h1>
+
+  <form method="post" th:action="@{/posts}" th:object="${form}">
+    <div>
+      <label>제목</label><br>
+      <input name="title" th:value="${form.title}" type="text">
+      <p style="color:crimson" th:errors="*{title}" th:if="${#fields.hasErrors('title')}"></p>
+    </div>
+    <div>
+      <label>내용</label><br>
+      <label>
+        <textarea name="content" rows="10" th:text="${form.content}"></textarea>
+      </label>
+      <p style="color:crimson" th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></p>
+    </div>
+    <button type="submit">등록</button>
+    <a th:href="@{/posts}">취소</a>
+  </form>
+</main>
+
+<footer th:replace="~{layout/base :: footer}"></footer>
+
+</body>
+</html>
