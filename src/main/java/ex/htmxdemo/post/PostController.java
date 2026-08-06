@@ -57,9 +57,9 @@ public class PostController {
 
     @PostMapping("/posts")
     public String create(
-        BindingResult bindingResult,
         @AuthenticationPrincipal CustomUserDetails userDetails,
-        @Valid @ModelAttribute("form") PostCreateRequest request
+        @Valid @ModelAttribute("form") PostCreateRequest request,
+        BindingResult bindingResult
     ) {
         if (bindingResult.hasErrors()) {
             return "post/form";
@@ -67,5 +67,30 @@ public class PostController {
 
         Post post = postService.create(request, userDetails.user());
         return "redirect:/posts/" + post.getId();
+    }
+
+    @GetMapping("/posts/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model) {
+        Post post = postService.get(id);
+        model.addAttribute("postId", id);
+        model.addAttribute("form", new PostCreateRequest(post.getTitle(), post.getContent()));
+        return "post/form";
+    }
+
+    @PostMapping("/posts/{id}/edit")
+    public String update(
+        @PathVariable Long id,
+        @AuthenticationPrincipal CustomUserDetails userDetails,
+        @Valid @ModelAttribute("form") PostCreateRequest request,
+        BindingResult bindingResult,
+        Model model
+    ) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("postId", id);
+            return "post/form";
+        }
+
+        postService.update(id, request, userDetails.user());
+        return "redirect:/posts/" + id;
     }
 }

@@ -14,6 +14,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestHeaderRequestMatcher;
 
 @Configuration
@@ -28,7 +29,10 @@ public class SecurityConfig {
     @Bean
     public RequestCache requestCache() {
         HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
-        requestCache.setRequestMatcher(new NegatedRequestMatcher(PathPatternRequestMatcher.pathPattern("/login")));
+        requestCache.setRequestMatcher(new NegatedRequestMatcher(new OrRequestMatcher(
+            PathPatternRequestMatcher.pathPattern("/login"),
+            PathPatternRequestMatcher.pathPattern("/error")
+        )));
         return requestCache;
     }
 
@@ -36,7 +40,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) {
         http
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/vendor/**", "/css/**", "/js/**", "/favicon.ico").permitAll()
+                .requestMatchers("/vendor/**", "/css/**", "/js/**", "/favicon.ico", "/error").permitAll()
                 .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/").permitAll()
                 .anyRequest().authenticated()

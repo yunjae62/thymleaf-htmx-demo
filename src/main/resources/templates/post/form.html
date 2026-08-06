@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout/base :: head(title='게시글 작성')}"></head>
+<head th:replace="~{layout/base :: head(title=${postId} != null ? '게시글 수정' : '게시글 작성')}"></head>
 <body>
 
 <header th:replace="~{layout/base :: header}"></header>
 
 <main>
-  <h1>게시글 작성</h1>
+  <h1 th:text="${postId} != null ? '게시글 수정' : '게시글 작성'">게시글 작성</h1>
 
-  <form method="post" th:action="@{/posts}" th:object="${form}">
+  <form method="post"
+        th:action="${postId} != null ? @{/posts/{id}/edit(id=${postId})} : @{/posts}"
+        th:object="${form}">
     <div>
       <label>제목</label><br>
       <input name="title" th:value="${form.title}" type="text">
@@ -21,8 +23,8 @@
       </label>
       <p style="color:crimson" th:errors="*{content}" th:if="${#fields.hasErrors('content')}"></p>
     </div>
-    <button type="submit">등록</button>
-    <a th:href="@{/posts}">취소</a>
+    <button type="submit" th:text="${postId} != null ? '수정' : '등록'">등록</button>
+    <a th:href="${postId} != null ? @{/posts/{id}(id=${postId})} : @{/posts}">취소</a>
   </form>
 </main>
 

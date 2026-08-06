@@ -48,4 +48,13 @@ public class Post {
         this.author = author;
         this.createdAt = LocalDateTime.now();
     }
+
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
+    public boolean isAuthor(User user) {
+        return this.author.getId().equals(user.getId());
+    }
 }
