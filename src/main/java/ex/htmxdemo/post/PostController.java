@@ -93,4 +93,10 @@ public class PostController {
         postService.update(id, request, userDetails.user());
         return "redirect:/posts/" + id;
     }
+
+    @PostMapping("/posts/{id}/delete")
+    public String delete(@PathVariable Long id, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        postService.delete(id, userDetails.user());
+        return "redirect:/posts";
+    }
 }

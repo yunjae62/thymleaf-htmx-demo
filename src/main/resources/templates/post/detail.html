@@ -17,6 +17,10 @@
   <p>
     <a th:href="@{/posts}">목록으로</a>
     <a th:href="@{/posts/{id}/edit(id=${post.id})}">수정</a>
+  <form method="post" th:action="@{/posts/{id}/delete(id=${post.id})}"
+        onsubmit="return confirm('정말 삭제하시겠습니까?')" style="display:inline">
+    <button type="submit">삭제</button>
+  </form>
   </p>
 </main>
 

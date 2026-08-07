@@ -46,4 +46,14 @@ public class PostService {
 
         post.update(request.title(), request.content());
     }
+
+    @Transactional
+    public void delete(Long id, User requester) {
+        Post post = get(id);
+        if (!post.isAuthor(requester)) {
+            throw new AccessDeniedException("작성자만 삭제할 수 있습니다.");
+        }
+
+        postRepository.delete(post);
+    }
 }
